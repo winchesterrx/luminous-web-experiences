@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Instagram, Linkedin, Github, Send, Mail, MapPin, Phone } from 'lucide-react';
@@ -26,7 +25,18 @@ const Contact = () => {
     e.preventDefault();
     setIsSending(true);
     
-    // Simulate form submission
+    // Format the message for WhatsApp
+    const whatsappMessage = encodeURIComponent(
+      `*Nova mensagem de contato:*\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}\n\n*Mensagem:*\n${formData.message}`
+    );
+    
+    // WhatsApp API URL with the phone number
+    const whatsappUrl = `https://wa.me/5517997799982?text=${whatsappMessage}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Complete the UI feedback
     setTimeout(() => {
       setIsSending(false);
       setIsSent(true);
@@ -36,7 +46,7 @@ const Contact = () => {
       setTimeout(() => {
         setIsSent(false);
       }, 3000);
-    }, 1500);
+    }, 1000);
   };
 
   const containerVariants = {
