@@ -2,9 +2,6 @@
 import { motion } from 'framer-motion';
 import SkillIcon from './SkillIcon';
 
-// Importing framer-motion
-<lov-add-dependency>framer-motion@latest</lov-add-dependency>
-
 const About = () => {
   const skills = [
     {
