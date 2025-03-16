@@ -1,5 +1,6 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { toast } from 'sonner';
 
 interface HeroData {
   name: string;
@@ -117,56 +118,97 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   
   useEffect(() => {
     // Load data from localStorage on component mount
-    const storedHeroData = localStorage.getItem("heroData");
-    const storedAboutData = localStorage.getItem("aboutData");
-    const storedContactData = localStorage.getItem("contactData");
-    const storedProjects = localStorage.getItem("projects");
-    
-    if (storedHeroData) setHeroData(JSON.parse(storedHeroData));
-    if (storedAboutData) setAboutData(JSON.parse(storedAboutData));
-    if (storedContactData) setContactData(JSON.parse(storedContactData));
-    if (storedProjects) setProjects(JSON.parse(storedProjects));
+    try {
+      const storedHeroData = localStorage.getItem("heroData");
+      const storedAboutData = localStorage.getItem("aboutData");
+      const storedContactData = localStorage.getItem("contactData");
+      const storedProjects = localStorage.getItem("projects");
+      
+      if (storedHeroData) setHeroData(JSON.parse(storedHeroData));
+      if (storedAboutData) setAboutData(JSON.parse(storedAboutData));
+      if (storedContactData) setContactData(JSON.parse(storedContactData));
+      if (storedProjects) setProjects(JSON.parse(storedProjects));
+    } catch (error) {
+      console.error("Error loading data from localStorage:", error);
+      toast.error("Erro ao carregar dados salvos. Usando dados padrão.");
+    }
   }, []);
   
   // Update hero data
   const updateHeroData = (data: HeroData) => {
-    setHeroData(data);
-    localStorage.setItem("heroData", JSON.stringify(data));
+    try {
+      setHeroData(data);
+      localStorage.setItem("heroData", JSON.stringify(data));
+      toast.success("Dados do Hero salvos com sucesso!");
+    } catch (error) {
+      console.error("Error saving heroData:", error);
+      toast.error("Erro ao salvar dados do Hero.");
+    }
   };
   
   // Update about data
   const updateAboutData = (data: AboutData) => {
-    setAboutData(data);
-    localStorage.setItem("aboutData", JSON.stringify(data));
+    try {
+      setAboutData(data);
+      localStorage.setItem("aboutData", JSON.stringify(data));
+      toast.success("Dados do About salvos com sucesso!");
+    } catch (error) {
+      console.error("Error saving aboutData:", error);
+      toast.error("Erro ao salvar dados do About.");
+    }
   };
   
   // Update contact data
   const updateContactData = (data: ContactData) => {
-    setContactData(data);
-    localStorage.setItem("contactData", JSON.stringify(data));
+    try {
+      setContactData(data);
+      localStorage.setItem("contactData", JSON.stringify(data));
+      toast.success("Dados de Contato salvos com sucesso!");
+    } catch (error) {
+      console.error("Error saving contactData:", error);
+      toast.error("Erro ao salvar dados de Contato.");
+    }
   };
   
   // Add project
   const addProject = (project: ProjectType) => {
-    const updatedProjects = [...projects, project];
-    setProjects(updatedProjects);
-    localStorage.setItem("projects", JSON.stringify(updatedProjects));
+    try {
+      const updatedProjects = [...projects, project];
+      setProjects(updatedProjects);
+      localStorage.setItem("projects", JSON.stringify(updatedProjects));
+      toast.success("Projeto adicionado com sucesso!");
+    } catch (error) {
+      console.error("Error adding project:", error);
+      toast.error("Erro ao adicionar projeto.");
+    }
   };
   
   // Update project
   const updateProject = (id: string, data: Partial<ProjectType>) => {
-    const updatedProjects = projects.map(project => 
-      project.id === id ? { ...project, ...data } : project
-    );
-    setProjects(updatedProjects);
-    localStorage.setItem("projects", JSON.stringify(updatedProjects));
+    try {
+      const updatedProjects = projects.map(project => 
+        project.id === id ? { ...project, ...data } : project
+      );
+      setProjects(updatedProjects);
+      localStorage.setItem("projects", JSON.stringify(updatedProjects));
+      toast.success("Projeto atualizado com sucesso!");
+    } catch (error) {
+      console.error("Error updating project:", error);
+      toast.error("Erro ao atualizar projeto.");
+    }
   };
   
   // Remove project
   const removeProject = (id: string) => {
-    const updatedProjects = projects.filter(project => project.id !== id);
-    setProjects(updatedProjects);
-    localStorage.setItem("projects", JSON.stringify(updatedProjects));
+    try {
+      const updatedProjects = projects.filter(project => project.id !== id);
+      setProjects(updatedProjects);
+      localStorage.setItem("projects", JSON.stringify(updatedProjects));
+      toast.success("Projeto removido com sucesso!");
+    } catch (error) {
+      console.error("Error removing project:", error);
+      toast.error("Erro ao remover projeto.");
+    }
   };
   
   return (

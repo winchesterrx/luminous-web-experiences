@@ -12,6 +12,25 @@ import AdminButton from '../components/AdminButton';
 
 const Index = () => {
   useEffect(() => {
+    // Add a programming background image to the body
+    document.body.style.backgroundImage = `
+      linear-gradient(to bottom, rgba(12, 15, 26, 0.92), rgba(12, 15, 26, 0.98)),
+      url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop')
+    `;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundPosition = 'center';
+    
+    return () => {
+      // Clean up when component unmounts
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundSize = '';
+      document.body.style.backgroundAttachment = '';
+      document.body.style.backgroundPosition = '';
+    };
+  }, []);
+
+  useEffect(() => {
     // Smooth scroll animation for navigation
     const handleAnchorClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
