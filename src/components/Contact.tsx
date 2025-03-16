@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Instagram, Linkedin, Github, Send } from 'lucide-react';
+import { Instagram, Linkedin, Github, Send, Mail, MapPin, Phone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Contact = () => {
@@ -35,15 +35,43 @@ const Contact = () => {
       }, 3000);
     }, 1500);
   };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { 
+        duration: 0.5
+      }
+    }
+  };
   
   return (
     <section id="contact" className="py-24 px-6 bg-dark-lighter/30">
       <div className="max-w-7xl mx-auto">
-        <p className="text-neon-purple font-code text-sm text-center mb-2">Entre em contato</p>
-        <h2 className="section-heading neon-text-green">Contato</h2>
-        <p className="section-subheading max-w-3xl mx-auto">
-          Vamos conversar sobre seu próximo projeto ou ideia
-        </p>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+        >
+          <motion.p variants={itemVariants} className="text-accent font-mono text-sm text-center mb-2">Entre em contato</motion.p>
+          <motion.h2 variants={itemVariants} className="section-heading neon-text-accent">Contato</motion.h2>
+          <motion.p variants={itemVariants} className="section-subheading max-w-3xl mx-auto">
+            Vamos conversar sobre seu próximo projeto ou ideia
+          </motion.p>
+        </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
           <motion.div 
@@ -53,61 +81,101 @@ const Contact = () => {
             viewport={{ once: true }}
             className="flex flex-col justify-center"
           >
-            <h3 className="text-2xl font-display font-bold mb-6">Vamos criar algo incrível juntos</h3>
+            <h3 className="text-2xl font-display font-bold mb-6 text-gradient">Vamos criar algo incrível juntos</h3>
             <p className="text-gray-400 leading-relaxed mb-8">
               Estou sempre aberto a novos desafios e oportunidades de colaboração. Se você tem um projeto em mente ou precisa de ajuda com desenvolvimento web, entre em contato comigo.
             </p>
             
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-full bg-dark-light/50 flex items-center justify-center">
-                  <Send size={18} className="text-neon-blue" />
+            <div className="flex flex-col space-y-6 mb-12">
+              <motion.div 
+                className="flex items-center space-x-4"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="w-12 h-12 rounded-full animated-gradient-border flex items-center justify-center">
+                  <Mail size={20} className="text-primary" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Email</p>
                   <p className="font-medium">gabriel.silva@exemplo.com</p>
                 </div>
-              </div>
+              </motion.div>
+
+              <motion.div 
+                className="flex items-center space-x-4"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="w-12 h-12 rounded-full animated-gradient-border flex items-center justify-center">
+                  <Phone size={20} className="text-secondary" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400">Telefone</p>
+                  <p className="font-medium">+1 (799) 779-9982</p>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                className="flex items-center space-x-4"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="w-12 h-12 rounded-full animated-gradient-border flex items-center justify-center">
+                  <MapPin size={20} className="text-accent" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400">Localização</p>
+                  <p className="font-medium">São Paulo, Brasil</p>
+                </div>
+              </motion.div>
             </div>
             
-            <div className="mt-8">
+            <div>
               <p className="text-sm font-medium mb-4">Redes Sociais</p>
               <div className="flex space-x-4">
-                <a 
+                <motion.a 
                   href="https://instagram.com/gabriielssantoss" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-neon-pink/20 transition-colors duration-300"
+                  className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#833AB4] hover:via-[#FD1D1D] hover:to-[#FCAF45] transition-colors duration-300"
+                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <Instagram size={20} className="text-white" />
-                </a>
-                <a 
+                </motion.a>
+                <motion.a 
                   href="https://linkedin.com/in/gabriel-silva" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-neon-blue/20 transition-colors duration-300"
+                  className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-[#0077b5]/20 hover:text-[#0077b5] transition-colors duration-300"
+                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <Linkedin size={20} className="text-white" />
-                </a>
-                <a 
+                </motion.a>
+                <motion.a 
                   href="https://github.com/winchesterrx" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-white/20 transition-colors duration-300"
+                  className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-white/20 hover:text-white transition-colors duration-300"
+                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <Github size={20} className="text-white" />
-                </a>
+                </motion.a>
               </div>
             </div>
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            className="relative"
           >
-            <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 md:p-8">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 rounded-xl blur-xl opacity-50"></div>
+            <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 md:p-8 relative z-10">
               <div className="mb-6">
                 <label htmlFor="name" className="block text-sm font-medium mb-2">Nome</label>
                 <input 
@@ -117,7 +185,7 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-dark-light/30 rounded-md border border-dark-light/50 focus:outline-none focus:ring-2 focus:ring-neon-blue/50 transition-all duration-300"
+                  className="w-full px-4 py-3 bg-dark-light/30 rounded-md border border-dark-light/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
                   placeholder="Seu nome completo"
                 />
               </div>
@@ -131,7 +199,7 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-dark-light/30 rounded-md border border-dark-light/50 focus:outline-none focus:ring-2 focus:ring-neon-blue/50 transition-all duration-300"
+                  className="w-full px-4 py-3 bg-dark-light/30 rounded-md border border-dark-light/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
                   placeholder="seu.email@exemplo.com"
                 />
               </div>
@@ -145,27 +213,37 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 bg-dark-light/30 rounded-md border border-dark-light/50 focus:outline-none focus:ring-2 focus:ring-neon-blue/50 transition-all duration-300 resize-none"
+                  className="w-full px-4 py-3 bg-dark-light/30 rounded-md border border-dark-light/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 resize-none"
                   placeholder="Descreva seu projeto ou ideia..."
                 ></textarea>
               </div>
               
-              <button 
+              <motion.button 
                 type="submit" 
                 disabled={isSending || isSent}
                 className={cn(
                   "w-full py-3 rounded-md font-medium relative overflow-hidden group transition-all duration-300",
                   isSending ? "bg-dark-light text-gray-400" : 
-                  isSent ? "bg-neon-green/20 text-neon-green" : 
-                  "bg-gradient-to-r from-neon-blue to-neon-purple hover:from-neon-purple hover:to-neon-blue text-white"
+                  isSent ? "bg-accent/20 text-accent" : 
+                  "bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white"
                 )}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 group-hover:opacity-50 transition-opacity duration-300"></span>
                 <span className="relative flex items-center justify-center">
                   {isSending ? 'Enviando...' : isSent ? 'Mensagem Enviada!' : 'Enviar Mensagem'}
-                  {!isSending && !isSent && <Send size={16} className="ml-2" />}
+                  {!isSending && !isSent && (
+                    <motion.span 
+                      initial={{ x: 0 }}
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5 }}
+                      className="ml-2"
+                    >
+                      <Send size={16} />
+                    </motion.span>
+                  )}
                 </span>
-              </button>
+              </motion.button>
             </form>
           </motion.div>
         </div>

@@ -1,6 +1,5 @@
 
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 interface SkillIconProps {
   name: string;
@@ -9,32 +8,35 @@ interface SkillIconProps {
 }
 
 const SkillIcon = ({ name, icon, color }: SkillIconProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+  // Map color names to Tailwind CSS classes
+  const colorMap: Record<string, string> = {
+    primary: 'from-primary/20 to-primary/5 hover:from-primary/30 hover:to-primary/10 text-primary',
+    secondary: 'from-secondary/20 to-secondary/5 hover:from-secondary/30 hover:to-secondary/10 text-secondary',
+    accent: 'from-accent/20 to-accent/5 hover:from-accent/30 hover:to-accent/10 text-accent',
+    blue: 'from-blue-500/20 to-blue-500/5 hover:from-blue-500/30 hover:to-blue-500/10 text-blue-500',
+    purple: 'from-purple-500/20 to-purple-500/5 hover:from-purple-500/30 hover:to-purple-500/10 text-purple-500',
+    green: 'from-green-500/20 to-green-500/5 hover:from-green-500/30 hover:to-green-500/10 text-green-500',
+  };
   
-  const neonColor = color === 'blue' 
-    ? 'shadow-[0_0_10px_rgba(0,238,255,0.7)]'
-    : color === 'purple' 
-      ? 'shadow-[0_0_10px_rgba(155,48,255,0.7)]'
-      : 'shadow-[0_0_10px_rgba(57,255,20,0.7)]';
+  const colorClass = colorMap[color] || colorMap.primary;
   
   return (
-    <div 
-      className="flex flex-col items-center justify-center group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <motion.div 
+      className="flex flex-col items-center justify-center"
+      whileHover={{ y: -5 }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
       <div 
-        className={cn(
-          "w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-dark-light/50 rounded-xl mb-2 transition-all duration-300",
-          isHovered && neonColor
-        )}
+        className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-b ${colorClass} p-4 flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg group`}
       >
-        <div dangerouslySetInnerHTML={{ __html: icon }} className="w-8 h-8 md:w-10 md:h-10" />
+        <motion.div 
+          className="w-full h-full"
+          whileHover={{ rotate: 5, scale: 1.1 }}
+          dangerouslySetInnerHTML={{ __html: icon }}
+        />
       </div>
-      <span className="text-sm font-medium opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-        {name}
-      </span>
-    </div>
+      <p className="mt-3 text-sm font-medium text-gray-300 group-hover:text-white transition-colors">{name}</p>
+    </motion.div>
   );
 };
 

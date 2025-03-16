@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Code, Github, Linkedin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NavBar = () => {
@@ -17,6 +18,27 @@ const NavBar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.3 }
+    }
+  };
   
   return (
     <header className={cn(
@@ -24,63 +46,162 @@ const NavBar = () => {
       isScrolled ? "bg-dark-lighter/80 backdrop-blur-md shadow-lg" : "bg-transparent"
     )}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a 
+        <motion.a 
           href="#hero" 
-          className="text-2xl font-display font-bold neon-text-blue tracking-wide"
+          className="text-2xl font-display font-bold tracking-wide"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          Gabriel<span className="text-neon-purple">.</span>
-        </a>
+          <span className="neon-text-primary">Gabriel</span>
+          <motion.span 
+            className="text-secondary"
+            animate={{ 
+              opacity: [1, 0.5, 1],
+              scale: [1, 1.2, 1]
+            }}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+          >.</motion.span>
+        </motion.a>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <motion.nav 
+          className="hidden md:flex space-x-8 items-center"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
           {[
             { href: "#about", label: "Sobre" },
             { href: "#portfolio", label: "Projetos" },
             { href: "#contact", label: "Contato" }
           ].map(({ href, label }) => (
-            <a
+            <motion.a
               key={href}
               href={href}
-              className="text-lg font-medium text-gray-200 hover:text-neon-blue transition-colors duration-300"
+              className="text-base font-medium text-gray-200 hover:text-primary transition-colors duration-300"
+              variants={itemVariants}
+              whileHover={{ y: -2 }}
             >
               {label}
-            </a>
+            </motion.a>
           ))}
-        </nav>
+          
+          <motion.div 
+            className="flex items-center space-x-3"
+            variants={itemVariants}
+          >
+            <motion.a 
+              href="https://github.com/winchesterrx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-dark-light/50 text-gray-300 hover:bg-primary/20 hover:text-primary transition-colors duration-300"
+              whileHover={{ y: -2 }}
+            >
+              <Github size={16} />
+            </motion.a>
+            <motion.a 
+              href="https://linkedin.com/in/gabriel-silva"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-dark-light/50 text-gray-300 hover:bg-secondary/20 hover:text-secondary transition-colors duration-300"
+              whileHover={{ y: -2 }}
+            >
+              <Linkedin size={16} />
+            </motion.a>
+          </motion.div>
+          
+          <motion.a 
+            href="#contact"
+            className="px-4 py-2 rounded-md bg-gradient-to-r from-primary to-secondary text-white font-medium hover:shadow-lg hover:shadow-primary/20 transition-all duration-300"
+            variants={itemVariants}
+            whileHover={{ y: -2, scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Fale Comigo
+          </motion.a>
+        </motion.nav>
         
         {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden text-gray-200 hover:text-neon-blue transition-colors"
+        <motion.button 
+          className="md:hidden text-gray-200 hover:text-primary transition-colors p-1"
           onClick={toggleMenu}
           aria-label="Toggle menu"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        </motion.button>
       </div>
       
       {/* Mobile Navigation */}
-      <div className={cn(
-        "fixed inset-0 z-40 flex flex-col items-center justify-center bg-dark-lighter/95 backdrop-blur-lg transition-all duration-300 md:hidden",
-        isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-      )}>
-        <nav className="flex flex-col space-y-8 text-center">
-          {[
-            { href: "#hero", label: "Início" },
-            { href: "#about", label: "Sobre" },
-            { href: "#portfolio", label: "Projetos" },
-            { href: "#contact", label: "Contato" }
-          ].map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              className="text-2xl font-medium text-gray-200 hover:text-neon-blue transition-colors duration-300"
-              onClick={() => setIsMenuOpen(false)}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-dark-lighter/95 backdrop-blur-lg md:hidden"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.nav 
+              className="flex flex-col space-y-6 text-center"
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
             >
-              {label}
-            </a>
-          ))}
-        </nav>
-      </div>
+              {[
+                { href: "#hero", label: "Início" },
+                { href: "#about", label: "Sobre" },
+                { href: "#portfolio", label: "Projetos" },
+                { href: "#contact", label: "Contato" }
+              ].map(({ href, label }, index) => (
+                <motion.a
+                  key={href}
+                  href={href}
+                  className="text-2xl font-medium text-gray-200 hover:text-primary transition-colors duration-300"
+                  onClick={() => setIsMenuOpen(false)}
+                  variants={itemVariants}
+                  custom={index}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  {label}
+                </motion.a>
+              ))}
+              
+              <motion.div 
+                className="flex justify-center space-x-5 pt-6"
+                variants={itemVariants}
+              >
+                <motion.a 
+                  href="https://github.com/winchesterrx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-dark-light/50 text-gray-300 hover:bg-primary/20 hover:text-primary transition-colors duration-300"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <Github size={20} />
+                </motion.a>
+                <motion.a 
+                  href="https://linkedin.com/in/gabriel-silva"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-dark-light/50 text-gray-300 hover:bg-secondary/20 hover:text-secondary transition-colors duration-300"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <Linkedin size={20} />
+                </motion.a>
+              </motion.div>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
