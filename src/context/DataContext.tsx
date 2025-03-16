@@ -36,6 +36,12 @@ interface DataContextType {
   aboutData: AboutData;
   contactData: ContactData;
   projects: ProjectType[];
+  updateHeroData: (data: HeroData) => void;
+  updateAboutData: (data: AboutData) => void;
+  updateContactData: (data: ContactData) => void;
+  addProject: (project: ProjectType) => void;
+  updateProject: (id: string, data: Partial<ProjectType>) => void;
+  removeProject: (id: string) => void;
 }
 
 const initialHeroData: HeroData = {
@@ -89,6 +95,12 @@ const DataContext = createContext<DataContextType>({
   aboutData: initialAboutData,
   contactData: initialContactData,
   projects: initialProjects,
+  updateHeroData: () => {},
+  updateAboutData: () => {},
+  updateContactData: () => {},
+  addProject: () => {},
+  updateProject: () => {},
+  removeProject: () => {},
 });
 
 export const useData = () => useContext(DataContext);
@@ -116,12 +128,59 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     if (storedProjects) setProjects(JSON.parse(storedProjects));
   }, []);
   
+  // Update hero data
+  const updateHeroData = (data: HeroData) => {
+    setHeroData(data);
+    localStorage.setItem("heroData", JSON.stringify(data));
+  };
+  
+  // Update about data
+  const updateAboutData = (data: AboutData) => {
+    setAboutData(data);
+    localStorage.setItem("aboutData", JSON.stringify(data));
+  };
+  
+  // Update contact data
+  const updateContactData = (data: ContactData) => {
+    setContactData(data);
+    localStorage.setItem("contactData", JSON.stringify(data));
+  };
+  
+  // Add project
+  const addProject = (project: ProjectType) => {
+    const updatedProjects = [...projects, project];
+    setProjects(updatedProjects);
+    localStorage.setItem("projects", JSON.stringify(updatedProjects));
+  };
+  
+  // Update project
+  const updateProject = (id: string, data: Partial<ProjectType>) => {
+    const updatedProjects = projects.map(project => 
+      project.id === id ? { ...project, ...data } : project
+    );
+    setProjects(updatedProjects);
+    localStorage.setItem("projects", JSON.stringify(updatedProjects));
+  };
+  
+  // Remove project
+  const removeProject = (id: string) => {
+    const updatedProjects = projects.filter(project => project.id !== id);
+    setProjects(updatedProjects);
+    localStorage.setItem("projects", JSON.stringify(updatedProjects));
+  };
+  
   return (
     <DataContext.Provider value={{ 
       heroData, 
       aboutData, 
       contactData, 
-      projects 
+      projects,
+      updateHeroData,
+      updateAboutData,
+      updateContactData,
+      addProject,
+      updateProject,
+      removeProject
     }}>
       {children}
     </DataContext.Provider>

@@ -9,7 +9,6 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 import AdminButton from '../components/AdminButton';
-import { DataProvider } from '../context/DataContext';
 
 const Index = () => {
   useEffect(() => {
@@ -42,19 +41,17 @@ const Index = () => {
   }, []);
   
   return (
-    <DataProvider>
-      <div className="min-h-screen">
-        <ParticleBackground />
-        <NavBar />
-        <Hero />
-        <About />
-        <Portfolio />
-        <Contact />
-        <Footer />
-        <WhatsAppButton />
-        <AdminButton />
-      </div>
-    </DataProvider>
+    <div className="min-h-screen">
+      <ParticleBackground />
+      <NavBar />
+      <Hero />
+      <About />
+      <Portfolio />
+      <Contact />
+      <Footer />
+      <WhatsAppButton />
+      <AdminButton />
+    </div>
   );
 };
 
