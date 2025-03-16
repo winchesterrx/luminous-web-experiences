@@ -3,8 +3,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Instagram, Linkedin, Github, Send, Mail, MapPin, Phone } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useData } from '../context/DataContext';
 
 const Contact = () => {
+  const { contactData } = useData();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -97,7 +100,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Email</p>
-                  <p className="font-medium">gabriel.silva@exemplo.com</p>
+                  <p className="font-medium">{contactData.email}</p>
                 </div>
               </motion.div>
 
@@ -111,7 +114,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Telefone</p>
-                  <p className="font-medium">+1 (799) 779-9982</p>
+                  <p className="font-medium">{contactData.phone}</p>
                 </div>
               </motion.div>
 
@@ -125,7 +128,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Localização</p>
-                  <p className="font-medium">São Paulo, Brasil</p>
+                  <p className="font-medium">{contactData.location}</p>
                 </div>
               </motion.div>
             </div>
@@ -134,7 +137,7 @@ const Contact = () => {
               <p className="text-sm font-medium mb-4">Redes Sociais</p>
               <div className="flex space-x-4">
                 <motion.a 
-                  href="https://instagram.com/gabriielssantoss" 
+                  href={contactData.instagram}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#833AB4] hover:via-[#FD1D1D] hover:to-[#FCAF45] transition-colors duration-300"
@@ -144,7 +147,7 @@ const Contact = () => {
                   <Instagram size={20} className="text-white" />
                 </motion.a>
                 <motion.a 
-                  href="https://linkedin.com/in/gabriel-silva" 
+                  href={contactData.linkedin}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-[#0077b5]/20 hover:text-[#0077b5] transition-colors duration-300"
@@ -154,7 +157,7 @@ const Contact = () => {
                   <Linkedin size={20} className="text-white" />
                 </motion.a>
                 <motion.a 
-                  href="https://github.com/winchesterrx" 
+                  href={contactData.github}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-dark-light/50 flex items-center justify-center hover:bg-white/20 hover:text-white transition-colors duration-300"

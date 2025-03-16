@@ -1,13 +1,15 @@
-
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Code, GitBranch, Terminal } from 'lucide-react';
+import { useData } from '../context/DataContext';
 
 const Hero = () => {
+  const { heroData } = useData();
+  
   const typingRef = useRef<HTMLSpanElement>(null);
   
   useEffect(() => {
-    const roles = ["Web Developer", "Front-end Specialist", "Full-Stack Engineer", "UI/UX Enthusiast"];
+    const roles = heroData.roles.split(",").map(role => role.trim());
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -41,7 +43,7 @@ const Hero = () => {
     };
     
     typeWriter();
-  }, []);
+  }, [heroData.roles]);
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -94,17 +96,15 @@ const Hero = () => {
           variants={itemVariants} 
           className="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tight leading-tight"
         >
-          <span className="neon-text-primary">Gabriel</span>{" "}
-          <span className="neon-text-secondary">Silva</span>
+          <span className="neon-text-primary">{heroData.name.split(" ")[0]}</span>{" "}
+          <span className="neon-text-secondary">{heroData.name.split(" ").slice(1).join(" ")}</span>
         </motion.h1>
         
         <motion.p 
           variants={itemVariants}
           className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto"
         >
-          Transformando ideias em experiências digitais 
-          <span className="text-gradient font-semibold"> extraordinárias </span>
-          com código limpo e design inovador
+          {heroData.tagline}
         </motion.p>
         
         <motion.div 
@@ -187,7 +187,6 @@ const Hero = () => {
         </a>
       </motion.div>
       
-      {/* Decorative elements */}
       <motion.div 
         className="absolute top-1/3 left-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl"
         animate={{ 
@@ -225,7 +224,6 @@ const Hero = () => {
         }}
       />
       
-      {/* Code snippet decoration */}
       <div className="absolute top-1/4 -right-10 opacity-10 rotate-12 hidden md:block">
         <pre className="text-xs text-primary font-mono">
           {`function createExperience() {
@@ -261,7 +259,6 @@ const Hero = () => {
         </pre>
       </div>
       
-      {/* Tech logos */}
       <div className="absolute bottom-10 left-0 right-0 overflow-hidden">
         <div className="marquee">
           <div className="marquee-content">

@@ -1,59 +1,52 @@
 
+import { motion } from 'framer-motion';
 import ProjectCard from './ProjectCard';
+import { useData } from '../context/DataContext';
 
 const Portfolio = () => {
-  const projects = [
-    {
-      title: "E-commerce Modern",
-      description: "Site de e-commerce completo com carrinho de compras, pagamentos e painel administrativo.",
-      imageUrl: "https://images.unsplash.com/photo-1523381294911-8d3cead13475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-      projectUrl: "https://github.com/winchesterrx"
-    },
-    {
-      title: "Aplicativo de Streaming",
-      description: "Plataforma de streaming com reprodução de vídeo em alta qualidade e sistema de recomendação.",
-      imageUrl: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-      projectUrl: "https://github.com/winchesterrx"
-    },
-    {
-      title: "Dashboard Analytics",
-      description: "Painel de controle para visualização de dados com gráficos interativos e relatórios personalizados.",
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-      projectUrl: "https://github.com/winchesterrx"
-    },
-    {
-      title: "App de Finanças",
-      description: "Aplicativo para controle de finanças pessoais com categorização automática e visualização de gastos.",
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-      projectUrl: "https://github.com/winchesterrx"
-    },
-    {
-      title: "Rede Social",
-      description: "Plataforma de rede social completa com feed, mensagens diretas e compartilhamento de conteúdo.",
-      imageUrl: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1774&q=80",
-      projectUrl: "https://github.com/winchesterrx"
-    },
-    {
-      title: "Portfólio Criativo",
-      description: "Site de portfólio com animações e interações únicas para destacar trabalhos criativos.",
-      imageUrl: "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-      projectUrl: "https://github.com/winchesterrx"
-    },
-  ];
+  const { projects } = useData();
+  
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { 
+        duration: 0.5
+      }
+    }
+  };
   
   return (
     <section id="portfolio" className="py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        <p className="text-neon-green font-code text-sm text-center mb-2">Meus trabalhos</p>
-        <h2 className="section-heading neon-text-blue">Projetos</h2>
-        <p className="section-subheading max-w-3xl mx-auto">
-          Conheça alguns dos projetos que desenvolvi utilizando as mais modernas tecnologias
-        </p>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+        >
+          <motion.p variants={itemVariants} className="text-secondary font-mono text-sm text-center mb-2">Meus Trabalhos</motion.p>
+          <motion.h2 variants={itemVariants} className="section-heading neon-text-primary">Portfólio</motion.h2>
+          <motion.p variants={itemVariants} className="section-subheading max-w-3xl mx-auto">
+            Uma seleção dos meus projetos mais recentes e relevantes
+          </motion.p>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
           {projects.map((project, index) => (
-            <ProjectCard 
-              key={index}
+            <ProjectCard
+              key={project.id}
               title={project.title}
               description={project.description}
               imageUrl={project.imageUrl}
@@ -62,6 +55,26 @@ const Portfolio = () => {
             />
           ))}
         </div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="mt-20 text-center"
+        >
+          <a 
+            href="https://github.com/winchesterrx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-6 py-3 rounded-md border border-dark-light/50 hover:border-primary/50 transition-colors duration-300"
+          >
+            <span>Ver Mais no GitHub</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

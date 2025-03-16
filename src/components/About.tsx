@@ -2,8 +2,11 @@
 import { motion } from 'framer-motion';
 import { CheckCircle, Code, CodeSquare, Layout, Server } from 'lucide-react';
 import SkillIcon from './SkillIcon';
+import { useData } from '../context/DataContext';
 
 const About = () => {
+  const { aboutData } = useData();
+  
   const skills = [
     {
       name: "HTML",
@@ -116,15 +119,15 @@ const About = () => {
             viewport={{ once: true, margin: "-100px" }}
           >
             <div className="prose prose-invert max-w-none">
-              <h3 className="text-3xl font-display font-bold mb-6 text-gradient">Olá, sou Gabriel!</h3>
+              <h3 className="text-3xl font-display font-bold mb-6 text-gradient">{aboutData.title}</h3>
               <p className="text-lg leading-relaxed mb-4">
-                Sou um desenvolvedor full-stack com expertise em criar produtos digitais de alta qualidade que combinam design elegante com funcionalidade robusta.
+                {aboutData.bio1}
               </p>
               <p className="text-lg leading-relaxed mb-4">
-                Minha jornada na programação começou há 5 anos, e desde então tenho trabalhado com empresas de diversos setores para transformar suas ideias em realidade digital.
+                {aboutData.bio2}
               </p>
               <p className="text-lg leading-relaxed mb-4">
-                Especializado em React, Node.js e tecnologias modernas de front-end, estou sempre buscando as melhores práticas e metodologias para entregar projetos que superam expectativas.
+                {aboutData.bio3}
               </p>
               
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
