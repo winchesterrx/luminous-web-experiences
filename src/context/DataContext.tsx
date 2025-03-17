@@ -59,9 +59,9 @@ const initialAboutData: AboutData = {
 };
 
 const initialContactData: ContactData = {
-  email: "gabriel.silva@exemplo.com",
-  phone: "+1 (799) 779-9982",
-  location: "São Paulo, Brasil",
+  email: "Menored45@gmail.com",
+  phone: "(17) 99779-9982",
+  location: "Votuporanga, Sp",
   instagram: "https://instagram.com/gabriielssantoss",
   linkedin: "https://linkedin.com/in/gabriel-silva",
   github: "https://github.com/winchesterrx",
