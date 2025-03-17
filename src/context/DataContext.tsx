@@ -61,7 +61,7 @@ const initialAboutData: AboutData = {
 const initialContactData: ContactData = {
   email: "Menored45@gmail.com",
   phone: "(17) 99779-9982",
-  location: "Votuporanga, Sp",
+  location: "Votuporanga - Sp",
   instagram: "https://instagram.com/gabriielssantoss",
   linkedin: "https://linkedin.com/in/gabriel-silva",
   github: "https://github.com/winchesterrx",
