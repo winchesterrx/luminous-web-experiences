@@ -22,7 +22,6 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      <Analytics /> {/* Adicionando Vercel Analytics aqui */}
     </TooltipProvider>
   </QueryClientProvider>
 );
