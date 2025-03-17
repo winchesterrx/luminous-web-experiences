@@ -198,7 +198,7 @@ const About = () => {
                 <div className="flex items-center gap-2">
                   <CheckCircle className="text-accent" size={20} />
                   <span className="font-medium text-sm">Projetos Entregues</span>
-                  <span className="font-bold text-white">40+</span>
+                  <span className="font-bold text-white">12+</span>
                 </div>
               </motion.div>
             </div>
